@@ -8,8 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,13 +25,17 @@ public class ListFragment extends Fragment {
     private static final String TAG = ListFragment.class.getName();
 
     ListView listView;
+    Photomodel photos ;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_fragment_layout, container);
-        listView = (ListView) view.findViewById(R.id.list_view);
+        View view = inflater.inflate(R.layout.list_fragment_layout, container,false);
+       listView = (ListView) view.findViewById(R.id.list_view);
         new GetListData().execute();
+
+
         return view;
     }
 
@@ -48,7 +57,16 @@ public class ListFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.d(TAG, "Web service Result " + result);
+            Gson gson = new Gson();
+            photos = gson.fromJson(result,Photomodel.class);
+            Log.d(TAG, "parsed json " + photos);
+           ArrayList<Photomodel.Photo> photoList = photos.getPhotos();
+            CustomAdapters customAdapters = new CustomAdapters(photoList,getActivity());
+            listView.setAdapter(customAdapters);
         }
+
     }
+
+
 
 }
