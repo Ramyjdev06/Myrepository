@@ -1,5 +1,8 @@
 package list.infinite.com.infinitelist;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,6 +70,27 @@ public class RestServiceManager {
         }
 
         return data;
+
+    }
+
+    public static Bitmap getBitmap(String url) {
+        HttpURLConnection connection = null;
+        try {
+            URL uri = new URL(url);
+            connection = (HttpURLConnection) uri.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
 
     }
 }

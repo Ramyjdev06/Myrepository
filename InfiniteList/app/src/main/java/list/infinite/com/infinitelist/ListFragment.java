@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -24,7 +25,7 @@ public class ListFragment extends Fragment {
 
     private static final String TAG = ListFragment.class.getName();
 
-    ListView listView;
+    GridView listView;
     Photomodel photos ;
 
 
@@ -32,7 +33,7 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_fragment_layout, container,false);
-       listView = (ListView) view.findViewById(R.id.list_view);
+       listView = (GridView) view.findViewById(R.id.list_view);
         new GetListData().execute();
 
 
